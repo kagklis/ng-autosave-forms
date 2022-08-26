@@ -1,0 +1,36 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-card {
+  margin: 50px auto;
+  width: 300px;
+  height: fit-content;
+}
+
+.personal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0.5rem !important;
+}
+
+.save-btn {
+  margin-bottom: 16px;
+}
+
+.logging-history {
+  margin-left: 1em;
+  .logs-container {
+    display: flex;
+    flex-direction: column;
+    height: 192px;
+    overflow-y: scroll;
+
+    p {
+      margin-top: 0px;
+    }
+  }
+}
