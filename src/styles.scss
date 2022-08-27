@@ -38,3 +38,44 @@ $ng-autosave-forms-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* SCSS HEX */
+$eerie-black: #1f1f1fff;
+$bisque: #f4dbb8ff;
+$bottle-green: #0b6e4fff;
+$barn-red: #7a0800ff;
+$mint-green: #a9fdacff;
+
+/* SCSS HSL */
+$eerie-black: hsla(0, 0%, 12%, 1);
+$bisque: hsla(35, 73%, 84%, 1);
+$bottle-green: hsla(161, 82%, 24%, 1);
+$barn-red: hsla(4, 100%, 24%, 1);
+$mint-green: hsla(122, 95%, 83%, 1);
+
+/* SCSS RGB */
+$eerie-black: rgba(31, 31, 31, 1);
+$bisque: rgba(244, 219, 184, 1);
+$bottle-green: rgba(11, 110, 79, 1);
+$barn-red: rgba(122, 8, 0, 1);
+$mint-green: rgba(169, 253, 172, 1);
+
+/* SCSS Gradient */
+$gradient-top: linear-gradient(0deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-right: linear-gradient(90deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-bottom: linear-gradient(180deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-left: linear-gradient(270deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-top-right: linear-gradient(45deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-bottom-right: linear-gradient(135deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-top-left: linear-gradient(225deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-bottom-left: linear-gradient(315deg, #1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+$gradient-radial: radial-gradient(#1f1f1fff, #f4dbb8ff, #0b6e4fff, #7a0800ff, #a9fdacff);
+
+
+
+/* SCSS HEX */
+$dark-jungle-green: #011a0dff;
+$cadet-grey: #9cabadff;
+$rich-black-fogra-29: #020d0fff;
+$pakistan-green: #307325ff;
+$black-chocolate: #222218ff;

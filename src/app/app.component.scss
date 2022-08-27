@@ -20,17 +20,3 @@ mat-card {
 .save-btn {
   margin-bottom: 16px;
 }
-
-.logging-history {
-  margin-left: 1em;
-  .logs-container {
-    display: flex;
-    flex-direction: column;
-    height: 192px;
-    overflow-y: scroll;
-
-    p {
-      margin-top: 0px;
-    }
-  }
-}

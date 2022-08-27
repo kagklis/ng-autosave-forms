@@ -3,11 +3,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
+import { HttpClientModule } from '@angular/common/http';
+import { LogsHistoryComponent } from './logs-history/logs-history.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [LogsHistoryComponent, AppComponent],
   imports: [
     BrowserAnimationsModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
