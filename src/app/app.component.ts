@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy } from '@angular/core';
+import {
+  FormBuilder,
+  FormControlStatus,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   debounceTime,
+  distinctUntilChanged,
   filter,
   finalize,
   Subscription,
   switchMap,
   tap,
+  startWith,
+  pairwise,
 } from 'rxjs';
 import { User } from './model/user';
 import { SnackbarService } from './services/snackbar.service';
@@ -17,11 +25,12 @@ import { UsersService } from './services/users.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   public form: FormGroup;
   public autoSaveEnabled = false;
   public autoSaving = false;
-  private subscription: Subscription;
+  private changesSubscription: Subscription;
+  private statusSubscription: Subscription;
 
   constructor(
     fb: FormBuilder,
@@ -32,33 +41,68 @@ export class AppComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
     });
-    this.subscription = new Subscription();
+    this.changesSubscription = new Subscription();
+    this.statusSubscription = new Subscription();
   }
 
-  save(): void {
+  ngOnDestroy(): void {
+    this.statusSubscription.unsubscribe();
+    this.changesSubscription.unsubscribe();
+  }
+
+  public save(): void {
     if (this.form.invalid) {
       return;
     }
-    this.usersService.storeUser(this.form.value, 'user').subscribe();
+    this.usersService.saveUser(this.form.value, 'user').subscribe();
   }
 
   public settingChanged(): void {
-    this.autoSaveEnabled ? this.enableAutoSaving() : this.disableAutoSaving();
+    if (this.autoSaveEnabled) {
+      this.enableAutoSaving();
+      this.enableStatusWatching();
+      this.snackbarService.openSnackbar('Auto-saving enabled');
+    } else {
+      this.disableAutoSaving();
+      this.disableStatusWatching();
+      this.snackbarService.openSnackbar('Auto-saving disabled');
+    }
+  }
+
+  private enableStatusWatching(): void {
+    this.statusSubscription = this.form.statusChanges
+      .pipe(
+        distinctUntilChanged(),
+        startWith(undefined),
+        pairwise(),
+        tap(([previous, current]) => {
+          // console.log('Status (previous, current): ', previous, current);
+          if (previous === 'VALID' && current === 'INVALID') {
+            this.disableAutoSaving();
+          }
+
+          if (current === 'VALID' && this.changesSubscription.closed) {
+            this.enableAutoSaving();
+            this.form.updateValueAndValidity();
+          }
+        })
+      )
+      .subscribe();
+  }
+
+  private disableStatusWatching(): void {
+    this.statusSubscription.unsubscribe();
   }
 
   private enableAutoSaving(): void {
-    this.snackbarService.openSnackbar('Auto-saving enabled');
-    // TODO: Fix minor bug when deleting the last character of
-    // a required field => form becomes invalid => should cancel
-    // last request
-    this.subscription = this.form.valueChanges
+    this.changesSubscription = this.form.valueChanges
       .pipe(
         filter(() => !this.form.invalid),
         tap(() => (this.autoSaving = true)),
         debounceTime(1_000),
         switchMap((value: User) =>
           this.usersService
-            .storeUser(value, 'system')
+            .saveUser(value, 'system')
             .pipe(finalize(() => (this.autoSaving = false)))
         )
       )
@@ -66,7 +110,7 @@ export class AppComponent {
   }
 
   private disableAutoSaving(): void {
-    this.snackbarService.openSnackbar('Auto-saving disabled');
-    this.subscription.unsubscribe();
+    this.autoSaving = false;
+    this.changesSubscription.unsubscribe();
   }
 }

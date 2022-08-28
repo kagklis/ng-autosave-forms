@@ -15,7 +15,7 @@ export class UsersService {
     private http: HttpClient
   ) {}
 
-  storeUser(user: User, savedBy: 'system' | 'user'): Observable<User> {
+  saveUser(user: User, savedBy: 'system' | 'user'): Observable<User> {
     const isSystem = savedBy === 'system';
     // Http post request here, e.g. this.http.post<User>('url', {})
     // For our demo we simply return the passed user.
