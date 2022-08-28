@@ -8,7 +8,7 @@
     </div>
     <div class="logs-container">
       <p *ngFor="let log of loggingHistory">
-        {{ log.timestamp | date:'MMM dd, yyyy HH:mm:ss' }} -
+        {{ log.timestamp | date: "MMM dd, yyyy HH:mm:ss" }} -
         <ng-container *ngIf="log.data">
           {{ log.system ? "Auto-saved: " : "User saved: " }}
           {{ log.data.firstName }} {{ log.data.lastName }}
