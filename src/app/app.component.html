@@ -1,42 +1,11 @@
 <mat-toolbar color="primary">
   <span>User Profile</span>
   <span class="spacer"></span>
-  <span>Autosave:</span>
-  <mat-slide-toggle
-    [(ngModel)]="autoSaveEnabled"
-    (change)="settingChanged()"
-  ></mat-slide-toggle>
+  <label for="autosave-input">Autosave:</label>
+  <mat-slide-toggle id="autosave" [(ngModel)]="autoSaveEnabled"></mat-slide-toggle>
 </mat-toolbar>
 <div class="content">
-  <mat-card>
-    <form [formGroup]="form" class="personal-form" novalidate>
-      <mat-form-field appearance="outline">
-        <mat-label>First name</mat-label>
-        <input formControlName="firstName" matInput placeholder="Joe" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Last name</mat-label>
-        <input formControlName="lastName" matInput placeholder="Doe" />
-      </mat-form-field>
-      <button
-        *ngIf="!autoSaveEnabled"
-        [disabled]="form.invalid"
-        mat-raised-button
-        color="accent"
-        type="button"
-        class="save-btn"
-        (click)="save()"
-      >
-        Save
-      </button>
-      <mat-card-footer>
-        <mat-progress-bar
-          *ngIf="autoSaveEnabled && autoSaving"
-          mode="indeterminate"
-        ></mat-progress-bar>
-      </mat-card-footer>
-    </form>
-  </mat-card>
+  <app-user-profile [autoSaveEnabled]="autoSaveEnabled"></app-user-profile>
 </div>
 <mat-divider></mat-divider>
 <app-logs-history></app-logs-history>

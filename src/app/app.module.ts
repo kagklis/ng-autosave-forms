@@ -5,9 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LogsHistoryComponent } from './logs-history/logs-history.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
-  declarations: [LogsHistoryComponent, AppComponent],
+  declarations: [UserProfileComponent, LogsHistoryComponent, AppComponent],
   imports: [
     BrowserAnimationsModule,
     HttpClientModule,
