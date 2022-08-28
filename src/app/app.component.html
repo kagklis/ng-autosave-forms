@@ -7,34 +7,36 @@
     (change)="settingChanged()"
   ></mat-slide-toggle>
 </mat-toolbar>
-<mat-card>
-  <form [formGroup]="form" class="personal-form" novalidate>
-    <mat-form-field appearance="outline">
-      <mat-label>First name</mat-label>
-      <input formControlName="firstName" matInput placeholder="Joe" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Last name</mat-label>
-      <input formControlName="lastName" matInput placeholder="Doe" />
-    </mat-form-field>
-    <button
-      *ngIf="!autoSaveEnabled"
-      [disabled]="form.invalid"
-      mat-raised-button
-      color="accent"
-      type="button"
-      class="save-btn"
-      (click)="save()"
-    >
-      Save
-    </button>
-    <mat-card-footer>
-      <mat-progress-bar
-        *ngIf="autoSaveEnabled && autoSaving"
-        mode="indeterminate"
-      ></mat-progress-bar>
-    </mat-card-footer>
-  </form>
-</mat-card>
+<div class="content">
+  <mat-card>
+    <form [formGroup]="form" class="personal-form" novalidate>
+      <mat-form-field appearance="outline">
+        <mat-label>First name</mat-label>
+        <input formControlName="firstName" matInput placeholder="Joe" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Last name</mat-label>
+        <input formControlName="lastName" matInput placeholder="Doe" />
+      </mat-form-field>
+      <button
+        *ngIf="!autoSaveEnabled"
+        [disabled]="form.invalid"
+        mat-raised-button
+        color="accent"
+        type="button"
+        class="save-btn"
+        (click)="save()"
+      >
+        Save
+      </button>
+      <mat-card-footer>
+        <mat-progress-bar
+          *ngIf="autoSaveEnabled && autoSaving"
+          mode="indeterminate"
+        ></mat-progress-bar>
+      </mat-card-footer>
+    </form>
+  </mat-card>
+</div>
 <mat-divider></mat-divider>
 <app-logs-history></app-logs-history>

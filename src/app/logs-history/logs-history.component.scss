@@ -4,24 +4,28 @@
   .logs-header {
     display: flex;
     align-items: center;
-    margin: 16px 0px;
+    margin: 1em 0px;
     h1 {
       margin: 0px;
     }
 
     button {
-      margin-left: 16px;
+      margin-left: 1em;
     }
   }
 
   .logs-container {
     display: flex;
     flex-direction: column;
-    height: 192px;
+    height: 196px;
     overflow-y: scroll;
 
     p {
       margin-top: 0px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
     }
   }
 }
