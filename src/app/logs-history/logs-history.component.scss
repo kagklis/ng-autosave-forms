@@ -1,5 +1,19 @@
 .logging-history {
   margin-left: 1em;
+
+  .logs-header {
+    display: flex;
+    align-items: center;
+    margin: 16px 0px;
+    h1 {
+      margin: 0px;
+    }
+
+    button {
+      margin-left: 16px;
+    }
+  }
+
   .logs-container {
     display: flex;
     flex-direction: column;

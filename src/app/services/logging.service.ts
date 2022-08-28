@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Log } from '../model/log';
 import { User } from '../model/user';
 
@@ -6,19 +7,24 @@ import { User } from '../model/user';
   providedIn: 'root',
 })
 export class LoggingService {
-  private _loggingHistory: Log[] = [];
+  private loggingHistorySubject = new BehaviorSubject<Log[]>([]);
+  public loggingHistory$ = this.loggingHistorySubject.asObservable();
+
   constructor() {}
 
-  get loggingHistory(): Log[] {
-    return this._loggingHistory;
+  public addLog(data: User | null, system: boolean): void {
+    this.loggingHistorySubject.next([
+      ...this.loggingHistorySubject.value,
+      {
+        timestamp: Date.now(),
+        data,
+        system,
+        error: !data ? 'Failed to save user. Please try again...' : '',
+      },
+    ]);
   }
 
-  public addLog(data: User | null, system: boolean): void {
-    this._loggingHistory.push({
-      timestamp: Date.now(),
-      data,
-      system,
-      error: !data ? 'Failed to save user. Please try again...' : '',
-    } as Log);
+  public clearLogs(): void {
+    this.loggingHistorySubject.next([]);
   }
 }
