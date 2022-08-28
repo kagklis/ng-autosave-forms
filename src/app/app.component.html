@@ -1,10 +1,13 @@
-<mat-toolbar color="primary">
+<mat-toolbar role="toolbar" color="primary">
   <span>User Profile</span>
   <span class="spacer"></span>
   <label for="autosave-input">Autosave:</label>
-  <mat-slide-toggle id="autosave" [(ngModel)]="autoSaveEnabled"></mat-slide-toggle>
+  <mat-slide-toggle
+    id="autosave"
+    [(ngModel)]="autoSaveEnabled"
+  ></mat-slide-toggle>
 </mat-toolbar>
-<div class="content">
+<div role="main" class="content">
   <app-user-profile [autoSaveEnabled]="autoSaveEnabled"></app-user-profile>
 </div>
 <mat-divider></mat-divider>
