@@ -9,8 +9,7 @@
       <input formControlName="lastName" matInput placeholder="Doe" />
     </mat-form-field>
     <button
-      *ngIf="!autoSaveEnabled"
-      [disabled]="form.invalid"
+      [disabled]="form.invalid || (isAutoSaving$ | async)"
       mat-raised-button
       color="accent"
       type="button"
