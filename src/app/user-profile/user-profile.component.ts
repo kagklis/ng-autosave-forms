@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { distinctUntilChanged, startWith, pairwise, tap, filter, debounceTime, switchMap, finalize, Subscription, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, pairwise, tap, filter, debounceTime, switchMap, finalize, Subscription, BehaviorSubject } from 'rxjs';
 import { User } from '../model/user';
 import { SnackbarService } from '../services/snackbar.service';
 import { UsersService } from '../services/users.service';
@@ -66,7 +66,6 @@ export class UserProfileComponent implements OnChanges, OnDestroy {
     this.statusSubscription = this.form.statusChanges
       .pipe(
         distinctUntilChanged(),
-        startWith(undefined),
         pairwise(),
         tap(([previous, current]) => {
           // console.log('Status (previous, current): ', previous, current);
