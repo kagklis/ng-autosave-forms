@@ -1,15 +1,15 @@
 <mat-card>
-  <form [formGroup]="form" class="personal-form" novalidate>
+  <form #userForm="ngForm" class="personal-form" novalidate>
     <mat-form-field appearance="outline">
       <mat-label>First name</mat-label>
-      <input formControlName="firstName" matInput placeholder="Joe" />
+      <input ngModel name="firstName" required matInput placeholder="Joe" />
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Last name</mat-label>
-      <input formControlName="lastName" matInput placeholder="Doe" />
+      <input ngModel name="lastName" required matInput placeholder="Doe" />
     </mat-form-field>
     <button
-      [disabled]="form.invalid || (isAutoSaving$ | async)"
+      [disabled]="userForm.invalid || (isAutoSaving$ | async)"
       mat-raised-button
       color="accent"
       type="button"

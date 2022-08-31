@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { distinctUntilChanged, pairwise, tap, filter, debounceTime, switchMap, finalize, Subscription, BehaviorSubject } from 'rxjs';
 import { User } from '../model/user';
 import { SnackbarService } from '../services/snackbar.service';
@@ -13,23 +13,18 @@ import { UsersService } from '../services/users.service';
 })
 export class UserProfileComponent implements OnChanges, OnDestroy {
   @Input() autoSaveEnabled: boolean = false;
+  @ViewChild('userForm') form!: NgForm;
 
   private changesSubscription: Subscription;
   private statusSubscription: Subscription;
   private isAutoSavingSubject = new BehaviorSubject<boolean>(false);
 
   public isAutoSaving$ = this.isAutoSavingSubject.asObservable();
-  public form: FormGroup;
 
   constructor(
-    fb: FormBuilder,
     private usersService: UsersService,
     private snackbarService: SnackbarService
   ) {
-    this.form = fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-    });
     this.changesSubscription = new Subscription();
     this.statusSubscription = new Subscription();
   }
@@ -63,8 +58,8 @@ export class UserProfileComponent implements OnChanges, OnDestroy {
   }
 
   private enableStatusWatching(): void {
-    this.statusSubscription = this.form.statusChanges
-      .pipe(
+    this.statusSubscription = this.form
+      .statusChanges!.pipe(
         distinctUntilChanged(),
         pairwise(),
         tap(([previous, current]) => {
@@ -75,7 +70,7 @@ export class UserProfileComponent implements OnChanges, OnDestroy {
 
           if (current === 'VALID' && this.changesSubscription.closed) {
             this.enableAutoSaving();
-            this.form.updateValueAndValidity();
+            this.form.form.updateValueAndValidity();
           }
         })
       )
@@ -87,8 +82,8 @@ export class UserProfileComponent implements OnChanges, OnDestroy {
   }
 
   private enableAutoSaving(): void {
-    this.changesSubscription = this.form.valueChanges
-      .pipe(
+    this.changesSubscription = this.form
+      .valueChanges!.pipe(
         filter(() => !this.form.invalid),
         tap(() => this.isAutoSavingSubject.next(true)),
         debounceTime(1_000),
