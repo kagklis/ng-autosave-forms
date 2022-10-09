@@ -9,7 +9,7 @@
       <input formControlName="lastName" matInput placeholder="Doe" />
     </mat-form-field>
     <button
-      [disabled]="form.invalid || (isAutoSaving$ | async)"
+      [disabled]="!form.valid || (isAutoSaving$ | async)"
       mat-raised-button
       color="accent"
       type="button"
