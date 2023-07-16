@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { catchError, EMPTY, Observable, of, tap } from 'rxjs';
 import { User } from '../model/user';
 import { LoggingService } from './logging.service';
@@ -9,8 +9,9 @@ import { SnackbarService } from './snackbar.service';
   providedIn: 'root',
 })
 export class UsersService {
+  logs = inject(LoggingService);
+
   constructor(
-    private loggingService: LoggingService,
     private snackbarService: SnackbarService,
     private http: HttpClient
   ) {}
@@ -22,11 +23,11 @@ export class UsersService {
     return of(user).pipe(
       tap((value) => {
         this.snackbarService.openSnackbar('Changes saved');
-        this.loggingService.addLog(value, isSystem);
+        this.logs.add(value, isSystem);
       }),
       catchError(() => {
         this.snackbarService.openSnackbar('Failed to save changes');
-        this.loggingService.addLog(null, isSystem);
+        this.logs.add(null, isSystem);
         return EMPTY;
       })
     );
