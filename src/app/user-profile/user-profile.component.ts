@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, SimpleChanges, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { distinctUntilChanged, pairwise, tap, filter, debounceTime, switchMap, finalize, Subscription, BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, pairwise, tap, filter, debounceTime, switchMap, finalize, Subscription } from 'rxjs';
 import { User } from '../model/user';
 import { SnackbarService } from '../services/snackbar.service';
 import { UsersService } from '../services/users.service';
@@ -16,9 +16,8 @@ export class UserProfileComponent implements OnChanges, OnDestroy {
 
   private changesSubscription: Subscription;
   private statusSubscription: Subscription;
-  private isAutoSavingSubject = new BehaviorSubject<boolean>(false);
 
-  public isAutoSaving$ = this.isAutoSavingSubject.asObservable();
+  public isAutoSaving = signal(false);
   public form: FormGroup;
 
   constructor(
@@ -90,19 +89,19 @@ export class UserProfileComponent implements OnChanges, OnDestroy {
     this.changesSubscription = this.form.valueChanges
       .pipe(
         filter(() => !this.form.invalid),
-        tap(() => this.isAutoSavingSubject.next(true)),
+        tap(() => this.isAutoSaving.set(true)),
         debounceTime(1_000),
         switchMap((value: User) =>
           this.usersService
             .saveUser(value, 'system')
-            .pipe(finalize(() => this.isAutoSavingSubject.next(false)))
+            .pipe(finalize(() => this.isAutoSaving.set(false)))
         )
       )
       .subscribe();
   }
 
   private disableAutoSaving(): void {
-    this.isAutoSavingSubject.next(false);
+    this.isAutoSaving.set(false);
     this.changesSubscription.unsubscribe();
   }
 }

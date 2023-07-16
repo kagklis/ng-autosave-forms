@@ -10,7 +10,7 @@
         <input formControlName="lastName" matInput placeholder="Doe" />
       </mat-form-field>
       <button
-        [disabled]="form.invalid || (isAutoSaving$ | async)"
+        [disabled]="form.invalid || isAutoSaving()"
         mat-raised-button
         color="accent"
         type="button"
@@ -23,7 +23,7 @@
   </mat-card-content>
   <mat-card-footer>
     <mat-progress-bar
-      *ngIf="autoSaveEnabled && (isAutoSaving$ | async)"
+      *ngIf="autoSaveEnabled && isAutoSaving()"
       mode="indeterminate"
     ></mat-progress-bar>
   </mat-card-footer>
